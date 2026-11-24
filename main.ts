@@ -17,6 +17,11 @@ if (line.length < 1 || line.length > 200 || line.trim().length === 0) {
   throw new Error(`entry.txt must be 1-200 non-blank characters, got ${line.length}`);
 }
 
+// The bounty judges ONE line: a line break would split it into two.
+if (line.includes('\n') || line.includes('\r')) {
+  throw new Error('entry.txt must be a single line — no line breaks allowed');
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 mkdirSync(outDir, { recursive: true });
 const outPath = join(outDir, 'entry.txt');
